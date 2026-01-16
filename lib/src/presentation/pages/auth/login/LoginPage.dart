@@ -1,4 +1,4 @@
-import 'package:e_commerce/src/presentation/pages/auth/login/LoginBlocCubit.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginContent.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginResponse.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultButton.dart';
@@ -16,31 +16,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginBlocCubit? _loginBlocCubit;
+  LoginBloc? _loginBloc;
 
   @override
   void initState() {
     print("Init State Executed");
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _loginBlocCubit?.dispose();
-    });
+    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    //   _loginBloc?.dispose();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     print("Build Executed");
 
-    _loginBlocCubit = BlocProvider.of<LoginBlocCubit>(context, listen: false);
+    _loginBloc = BlocProvider.of<LoginBloc>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            LoginResponse(loginBlocCubit: _loginBlocCubit),
-            LoginContent(loginBlocCubit: _loginBlocCubit),
+            LoginResponse(loginBloc: _loginBloc),
+            LoginContent(loginBloc: _loginBloc),
           ],
         ),
       ),

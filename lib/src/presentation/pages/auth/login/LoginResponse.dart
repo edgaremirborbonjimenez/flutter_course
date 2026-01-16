@@ -1,17 +1,17 @@
 import 'package:e_commerce/src/domain/utils/Resource.dart';
-import 'package:e_commerce/src/presentation/pages/auth/login/LoginBlocCubit.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginResponse extends StatelessWidget {
-  final LoginBlocCubit? loginBlocCubit;
+  final LoginBloc? loginBloc;
 
-  const LoginResponse({super.key, required this.loginBlocCubit});
+  const LoginResponse({super.key, required this.loginBloc});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: loginBlocCubit?.responseStream,
+      stream: loginBloc?.responseStream,
       builder: ((context, snapshot) {
         final state = snapshot.data;
         if (state is Loading) {

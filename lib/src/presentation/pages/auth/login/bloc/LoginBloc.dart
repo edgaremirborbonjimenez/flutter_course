@@ -3,15 +3,68 @@ import 'package:e_commerce/src/domain/models/AuthResponse.dart';
 import 'package:e_commerce/src/domain/useCase/auth/AuthUseCases.dart';
 import 'package:e_commerce/src/domain/useCase/auth/LoginUseCase.dart';
 import 'package:e_commerce/src/domain/utils/Resource.dart';
-import 'package:e_commerce/src/presentation/pages/auth/login/LoginBlocState.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginState.dart';
+import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
-class LoginBlocCubit extends Cubit<LoginBlocState> {
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
   AuthUseCases authUseCases;
 
-  LoginBlocCubit(this.authUseCases) : super(LoginInitial());
+  LoginBloc(this.authUseCases) : super(LoginState()) {
+    on<InitEvent>(_onInitEvent);
+    on<EmailChanged>(_onEmailChanged);
+    on<PasswordChanged>(_onPasswordChanged);
+    on<LoginSubmit>(_onLoginSubmit);
+  }
+  final formKey = GlobalKey<FormState>();
+
+  Future<void> _onInitEvent(InitEvent event, Emitter<LoginState> emit) async {
+    emit(state.copyWith(formKey: formKey));
+  }
+
+  Future<void> _onEmailChanged(
+    EmailChanged event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        email: BlocFormItem(value: event.email.value),
+        formKey: formKey,
+      ),
+    );
+  }
+
+  Future<void> _onPasswordChanged(
+    PasswordChanged event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        password: BlocFormItem(value: event.password.value),
+        formKey: formKey,
+      ),
+    );
+  }
+
+  Future<void> _onLoginSubmit(
+    LoginSubmit event,
+    Emitter<LoginState> emit,
+  ) async {
+    _responseController.add(Loading());
+    Resource response = await authUseCases.loginUseCase.run(
+      state.email.value,
+      state.password.value,
+    );
+    _responseController.add(response);
+    // Esto soluciona en caso de que el estado de la respuesta no llega a cabiar, lo regresamos al estado Inicial manualmente
+    // Future.delayed(Duration(seconds: 1),(){
+    //   _responseController.add(Initial());
+    // });
+  }
 
   final _responseController = BehaviorSubject<Resource>();
   final _emailController = BehaviorSubject<String>();

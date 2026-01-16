@@ -8,16 +8,17 @@ class DefaultTextField extends StatelessWidget {
   final bool obscureText;
 
   const DefaultTextField({
+    Key? key,
     required this.label,
     required this.icon,
     required this.onChanged,
     this.obscureText = false,
     this.errorText,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: obscureText,
       onChanged: (text) {
         onChanged(text);
