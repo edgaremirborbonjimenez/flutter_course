@@ -55,17 +55,19 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
+              final responseState = state.response;
+              if (responseState is Loading) {
+                return Stack(
+                  children: [
+                    LoginContent(_loginBloc, state),
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                );
+              }
               return LoginContent(_loginBloc, state);
             },
           ),
         ),
-        // child: Stack(
-        //   alignment: Alignment.center,
-        //   children: [
-        //     LoginResponse(loginBloc: _loginBloc),
-        //     LoginContent(loginBloc: _loginBloc),
-        //   ],
-        // ),
       ),
     );
   }
