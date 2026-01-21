@@ -19,11 +19,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginSubmit>(_onLoginSubmit);
+    on<LoginFormReset>(_onLoginFormReset);
   }
   final formKey = GlobalKey<FormState>();
 
   Future<void> _onInitEvent(InitEvent event, Emitter<LoginState> emit) async {
     emit(state.copyWith(formKey: formKey));
+  }
+
+  Future<void> _onLoginFormReset(
+    LoginFormReset event,
+    Emitter<LoginState> emit,
+  ) async {
+    state.formKey?.currentState?.reset();
   }
 
   Future<void> _onEmailChanged(
@@ -32,7 +40,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(
       state.copyWith(
-        email: BlocFormItem(value: event.email.value),
+        email: BlocFormItem(
+          value: event.email.value,
+          error: event.email.value.isNotEmpty ? null : 'Email is required',
+        ),
         formKey: formKey,
       ),
     );
@@ -44,7 +55,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(
       state.copyWith(
-        password: BlocFormItem(value: event.password.value),
+        password: BlocFormItem(
+          value: event.password.value,
+          error:
+              event.password.value.isNotEmpty &&
+                  event.password.value.length >= 6
+              ? null
+              : 'Password is required',
+        ),
         formKey: formKey,
       ),
     );
@@ -60,50 +78,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       state.password.value,
     );
     emit(state.copyWith(response: response, formKey: formKey));
-  }
-
-  final _responseController = BehaviorSubject<Resource>();
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-
-  Stream<Resource> get responseStream => _responseController.stream;
-  Stream<String> get emailStream => _emailController.stream;
-  Stream<String> get passwordStream => _passwordController.stream;
-
-  void changeEmail(String email) {
-    if (email.isNotEmpty && email.length < 6) {
-      _emailController.sink.addError('Email length is less than 6');
-    } else {
-      _emailController.sink.add(email);
-    }
-  }
-
-  void changePassword(String password) {
-    if (password.isNotEmpty && password.length < 6) {
-      _passwordController.sink.addError('Password length is less than 6');
-    } else {
-      _passwordController.sink.add(password);
-    }
-  }
-
-  Stream<bool> get validateForm =>
-      Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
-
-  void dispose() {
-    changeEmail('');
-    changePassword('');
-  }
-
-  void login() async {
-    _responseController.add(Loading());
-    Resource response = await authUseCases.loginUseCase.run(
-      _emailController.value,
-      _passwordController.value,
-    );
-    _responseController.add(response);
-    // Esto soluciona en caso de que el estado de la respuesta no llega a cabiar, lo regresamos al estado Inicial manualmente
-    // Future.delayed(Duration(seconds: 1),(){
-    //   _responseController.add(Initial());
-    // });
   }
 }

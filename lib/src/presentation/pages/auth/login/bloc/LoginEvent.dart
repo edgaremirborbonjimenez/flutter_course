@@ -8,8 +8,12 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitEvent extends LoginEvent{
+class InitEvent extends LoginEvent {
   const InitEvent();
+}
+
+class LoginFormReset extends LoginEvent {
+  const LoginFormReset();
 }
 
 class EmailChanged extends LoginEvent {

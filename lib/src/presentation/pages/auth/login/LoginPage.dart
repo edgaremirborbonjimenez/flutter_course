@@ -1,5 +1,6 @@
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginContent.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginState.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultButton.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultTextField.dart';
@@ -45,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 toastLength: Toast.LENGTH_LONG,
               );
             } else if (responseState is Success) {
+              _loginBloc?.add(LoginFormReset());
               Fluttertoast.showToast(
                 msg: 'Successfull Login',
                 toastLength: Toast.LENGTH_LONG,

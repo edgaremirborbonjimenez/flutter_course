@@ -60,6 +60,9 @@ class LoginContent extends StatelessWidget {
                         EmailChanged(email: BlocFormItem(value: text)),
                       );
                     },
+                    validator: (value) {
+                      return state.email.error;
+                    },
                   ),
                 ),
                 Container(
@@ -74,6 +77,9 @@ class LoginContent extends StatelessWidget {
                       );
                     },
                     obscureText: true,
+                    validator: (value) {
+                      return state.password.error;
+                    },
                   ),
                 ),
                 Container(
@@ -87,15 +93,14 @@ class LoginContent extends StatelessWidget {
                     color: Color.fromARGB(255, 187, 141, 5),
                     text: "LOGIN",
                     onPressed: () {
-                      loginBloc?.add(LoginSubmit());
-                      // if (asyncSnapshot.hasData) {
-                      //   loginBloc?.login();
-                      // } else {
-                      //   Fluttertoast.showToast(
-                      //     msg: 'Invalid Data',
-                      //     toastLength: Toast.LENGTH_LONG,
-                      //   );
-                      // }
+                      if (state.formKey!.currentState!.validate()) {
+                        loginBloc?.add(LoginSubmit());
+                      } else {
+                        Fluttertoast.showToast(
+                          msg: 'Invalid Data',
+                          toastLength: Toast.LENGTH_LONG,
+                        );
+                      }
                     },
                   ),
                 ),

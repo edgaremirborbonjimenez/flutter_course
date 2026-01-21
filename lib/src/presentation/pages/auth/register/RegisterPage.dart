@@ -1,9 +1,8 @@
-import 'package:e_commerce/src/presentation/pages/auth/register/RegisterBlocCubit.dart';
+import 'package:e_commerce/src/domain/utils/Resource.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/RegisterContent.dart';
-import 'package:e_commerce/src/presentation/pages/auth/register/RegisterResponse.dart';
-import 'package:e_commerce/src/presentation/widgets/DefaultButton.dart';
-import 'package:e_commerce/src/presentation/widgets/DefaultIconBack.dart';
-import 'package:e_commerce/src/presentation/widgets/DefaultTextField.dart';
+import 'package:e_commerce/src/presentation/pages/auth/register/bloc/RegistareState.dart';
+import 'package:e_commerce/src/presentation/pages/auth/register/bloc/RegisterBloc.dart';
+import 'package:e_commerce/src/presentation/pages/auth/register/bloc/RegisterEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,31 +14,46 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-RegisterBlocCubit? _registerBlocCubit;
+RegisterBloc? _bloc;
 
 class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _registerBlocCubit?.dispose();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _registerBlocCubit?.dispose();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    _registerBlocCubit = BlocProvider.of(context, listen: false);
+    _bloc = BlocProvider.of<RegisterBloc>(context);
 
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            RegisterContent(_registerBlocCubit),
-            RegisterResponse(registerBlocCubit: _registerBlocCubit),
-          ],
+        child: BlocListener<RegisterBloc, RegisterState>(
+          listener: (context, state) {
+            final responseState = state.response;
+            if (responseState is Error) {
+              Fluttertoast.showToast(
+                msg: responseState.message,
+                toastLength: Toast.LENGTH_LONG,
+              );
+            } else if (responseState is Success) {
+              _bloc?.add(RegisterFormReset());
+              Fluttertoast.showToast(
+                msg: 'Successfull Register',
+                toastLength: Toast.LENGTH_LONG,
+              );
+            }
+          },
+          child: BlocBuilder<RegisterBloc, RegisterState>(
+            builder: (context, state) {
+              return RegisterContent(_bloc, state);
+            },
+          ),
         ),
       ),
     );
