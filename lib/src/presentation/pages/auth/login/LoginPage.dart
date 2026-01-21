@@ -1,3 +1,4 @@
+import 'package:e_commerce/src/domain/models/AuthResponse.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginContent.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
@@ -46,7 +47,9 @@ class _LoginPageState extends State<LoginPage> {
                 toastLength: Toast.LENGTH_LONG,
               );
             } else if (responseState is Success) {
+              final authResponse = responseState.data as AuthResponse;
               _loginBloc?.add(LoginFormReset());
+              _loginBloc?.add(LoginSaveUserSession(authResponse: authResponse));
               Fluttertoast.showToast(
                 msg: 'Successfull Login',
                 toastLength: Toast.LENGTH_LONG,

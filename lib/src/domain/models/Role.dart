@@ -20,8 +20,8 @@ class Role {
     name: json['name'] ?? '',
     image: json['image'] ?? '',
     route: json['route'] ?? '',
-    createdAt: DateTime.parse(json['created_at']),
-    updatedAt: DateTime.parse(json['updated_at']),
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: DateTime.parse(json['updatedAt']),
   );
 
   Map<String, dynamic> toJson() => {

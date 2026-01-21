@@ -1,3 +1,4 @@
+import 'package:e_commerce/src/domain/models/AuthResponse.dart';
 import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,6 +15,14 @@ class InitEvent extends LoginEvent {
 
 class LoginFormReset extends LoginEvent {
   const LoginFormReset();
+}
+
+class LoginSaveUserSession extends LoginEvent {
+  final AuthResponse authResponse;
+  const LoginSaveUserSession({required this.authResponse});
+
+  @override
+  List<Object?> get props => super.props;
 }
 
 class EmailChanged extends LoginEvent {

@@ -1,4 +1,4 @@
-import 'package:e_commerce/src/data/dataSource/remote/repository/AuthRepositoryImpl.dart';
+import 'package:e_commerce/src/data/repository/AuthRepositoryImpl.dart';
 import 'package:e_commerce/src/domain/repository/AuthRepository.dart';
 import 'package:injectable/injectable.dart';
 
