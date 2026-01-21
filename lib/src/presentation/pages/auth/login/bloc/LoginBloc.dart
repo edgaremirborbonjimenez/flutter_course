@@ -54,16 +54,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginSubmit event,
     Emitter<LoginState> emit,
   ) async {
-    _responseController.add(Loading());
-    Resource response = await authUseCases.loginUseCase.run(
+    emit(state.copyWith(response: Loading(), formKey: formKey));
+    Resource<AuthResponse> response = await authUseCases.loginUseCase.run(
       state.email.value,
       state.password.value,
     );
-    _responseController.add(response);
-    // Esto soluciona en caso de que el estado de la respuesta no llega a cabiar, lo regresamos al estado Inicial manualmente
-    // Future.delayed(Duration(seconds: 1),(){
-    //   _responseController.add(Initial());
-    // });
+    emit(state.copyWith(response: response, formKey: formKey));
   }
 
   final _responseController = BehaviorSubject<Resource>();

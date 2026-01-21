@@ -16,7 +16,7 @@ class AuthService {
       final response = await http.post(url, headers: headers, body: body);
       final data = json.decode(response.body);
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        return Error(data["message"].toString());
+        return Error(listToString(data['message']));
       }
       AuthResponse authResponse = AuthResponse.fromJson(data);
       return Success(authResponse);

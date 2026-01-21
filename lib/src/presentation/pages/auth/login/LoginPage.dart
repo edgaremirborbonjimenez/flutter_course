@@ -1,6 +1,6 @@
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginContent.dart';
-import 'package:e_commerce/src/presentation/pages/auth/login/LoginResponse.dart';
+import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginState.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultButton.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultTextField.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +36,34 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            LoginResponse(loginBloc: _loginBloc),
-            LoginContent(loginBloc: _loginBloc),
-          ],
+        child: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            final responseState = state.response;
+            if (responseState is Error) {
+              Fluttertoast.showToast(
+                msg: responseState.message,
+                toastLength: Toast.LENGTH_LONG,
+              );
+            } else if (responseState is Success) {
+              Fluttertoast.showToast(
+                msg: 'Successfull Login',
+                toastLength: Toast.LENGTH_LONG,
+              );
+            }
+          },
+          child: BlocBuilder<LoginBloc, LoginState>(
+            builder: (context, state) {
+              return LoginContent(_loginBloc, state);
+            },
+          ),
         ),
+        // child: Stack(
+        //   alignment: Alignment.center,
+        //   children: [
+        //     LoginResponse(loginBloc: _loginBloc),
+        //     LoginContent(loginBloc: _loginBloc),
+        //   ],
+        // ),
       ),
     );
   }
