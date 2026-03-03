@@ -28,6 +28,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     AuthResponse? authResponse = await authUseCases.getUserSesionUseCase.run();
     print('USER SESSION: ${authResponse?.toJson()}');
     emit(state.copyWith(formKey: formKey));
+    if (authResponse != null) {
+      emit(
+        state.copyWith(
+          response: Success(authResponse), //AuthResponse -> user, token
+          formKey: formKey,
+        ),
+      );
+    }
   }
 
   Future<void> _onLoginSaveUserSession(

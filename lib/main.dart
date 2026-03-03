@@ -3,11 +3,13 @@ import 'package:e_commerce/src/BlocProviders.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/RegisterPage.dart';
+import 'package:e_commerce/src/presentation/pages/roles/RolesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   runApp(const MyApp());
 }
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'register': (BuildContext context) => RegisterPage(),
+          'roles': (BuildContext context) => RolesPage(),
         },
       ),
     );

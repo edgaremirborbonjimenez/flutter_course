@@ -28,6 +28,8 @@ class AuthService {
 
   Future<Resource<AuthResponse>> register(User user) async {
     try {
+      print(user.password);
+      print(user.email);
       Uri url = Uri.http(ApiConfig.API_ECOMMERCE, '/auth/register');
       Map<String, String> headers = {"Content-Type": "application/json"};
       String body = json.encode(user.toJson());

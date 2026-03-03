@@ -16,3 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 # flutter_course
+
+Este comando es para el compilado de las dependencias inyectadas
+
+flutter package pub run build_runner build
