@@ -5,6 +5,7 @@ import 'package:e_commerce/src/domain/repository/AuthRepository.dart';
 import 'package:e_commerce/src/domain/useCase/auth/AuthUseCases.dart';
 import 'package:e_commerce/src/domain/useCase/auth/GetUserSessionUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/auth/LoginUseCase.dart';
+import 'package:e_commerce/src/domain/useCase/auth/LogoutUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/auth/RegisterUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/auth/SaveUserSessionUseCase.dart';
 import 'package:injectable/injectable.dart';
@@ -27,5 +28,6 @@ abstract class AppModule {
     registerUseCase: RegisterUseCase(authRepository),
     saveUserSesionUseCase: SaveUserSesionUseCase(authRepository),
     getUserSesionUseCase: GetUserSesionUseCase(authRepository),
+    logout: LogoutUseCase(authRepository),
   );
 }

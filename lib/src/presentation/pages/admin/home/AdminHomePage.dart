@@ -56,6 +56,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.pop(context);
                   },
                 ),
+                ListTile(
+                  title: Text("Logout"),
+                  onTap: () {
+                    _bloc?.add(AdminLogout());
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      'login',
+                      (route) => false,
+                    );
+                  },
+                ),
               ],
             ),
           );

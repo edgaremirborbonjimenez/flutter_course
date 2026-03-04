@@ -19,4 +19,4 @@ samples, guidance on mobile development, and a full API reference.
 
 Este comando es para el compilado de las dependencias inyectadas
 
-flutter package pub run build_runner build
+flutter pub run build_runner build

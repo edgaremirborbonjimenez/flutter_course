@@ -35,4 +35,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Resource<AuthResponse>> register(User user) {
     return authService.register(user);
   }
+
+  @override
+  Future<bool> logout() async {
+    return await sharedPref.remove('user');
+  }
 }
