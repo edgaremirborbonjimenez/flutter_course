@@ -55,7 +55,11 @@ class _LoginPageState extends State<LoginPage> {
               //   toastLength: Toast.LENGTH_LONG,
               // );
               WidgetsBinding.instance.addPostFrameCallback((timestamp) {
-                Navigator.pushNamed(context, 'roles');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  'roles',
+                  (route) => false,
+                );
               });
             }
           },
