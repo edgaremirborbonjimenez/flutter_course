@@ -5,6 +5,7 @@ import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/RegisterPage.dart';
 import 'package:e_commerce/src/presentation/pages/client/home/ClientHomePage.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/ProfileInfoPage.dart';
 import 'package:e_commerce/src/presentation/pages/roles/RolesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           'roles': (BuildContext context) => RolesPage(),
           'client/home': (BuildContext context) => ClientHomePage(),
           'admin/home': (BuildContext context) => AdminHomePage(),
+          'profile/info': (BuildContext context) => ProfileInfoPage(),
         },
       ),
     );

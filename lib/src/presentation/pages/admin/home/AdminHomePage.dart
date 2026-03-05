@@ -3,6 +3,7 @@ import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeBloc.
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeEvent.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeState.dart';
 import 'package:e_commerce/src/presentation/pages/admin/product/list/AdminProductListPage.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/ProfileInfoPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +20,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   List<Widget> pageList = <Widget>[
     AdminCategoryListPage(),
     AdminProductListPage(),
+    ProfileInfoPage(),
   ];
 
   @override
@@ -53,6 +55,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   selected: state.pageIndex == 1,
                   onTap: () {
                     _bloc?.add(AdminChangeDrawerPage(pageIndex: 1));
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text("User Profile"),
+                  selected: state.pageIndex == 2,
+                  onTap: () {
+                    _bloc?.add(AdminChangeDrawerPage(pageIndex: 2));
                     Navigator.pop(context);
                   },
                 ),

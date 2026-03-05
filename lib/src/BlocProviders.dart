@@ -5,6 +5,8 @@ import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/bloc/RegisterBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/bloc/RegisterEvent.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/bloc/ProfileInfoBloc.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/bloc/ProfileInfoEvent.dart';
 import 'package:e_commerce/src/presentation/pages/roles/bloc/RolesBloc.dart';
 import 'package:e_commerce/src/presentation/pages/roles/bloc/RolesEvent.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,5 +25,9 @@ List<BlocProvider> blocProviders = [
   ),
   BlocProvider<AdminHomeBloc>(
     create: (context) => AdminHomeBloc(locator<AuthUseCases>()),
+  ),
+  BlocProvider<ProfileInfoBloc>(
+    create: (context) =>
+        ProfileInfoBloc(locator<AuthUseCases>())..add(ProfileInfoGetUser()),
   ),
 ];

@@ -31,7 +31,7 @@ class RegisterState extends Equatable {
     name: name.value,
     lastName: lastName.value,
     email: email.value,
-    phone: email.value,
+    phone: phone.value,
     password: password.value,
   );
 
