@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class ProfileUpdateState extends Equatable{
   final BlocFormItem lastName;
   final BlocFormItem email;
   final BlocFormItem phone;
+  final File? image;
   final GlobalKey<FormState>? formKey;
 
   const ProfileUpdateState({
@@ -15,7 +18,8 @@ class ProfileUpdateState extends Equatable{
     this.lastName = const BlocFormItem(error: 'Enter Last Name'),
     this.email = const BlocFormItem(error: 'Enter Email'),
     this.phone = const BlocFormItem(error: 'Enter Phone'),
-    this.formKey
+    this.formKey,
+    this.image
   });
 
   ProfileUpdateState copyWith({
@@ -23,6 +27,7 @@ class ProfileUpdateState extends Equatable{
     BlocFormItem? lastName,
     BlocFormItem? email,
     BlocFormItem? phone,
+    File? image,
     GlobalKey<FormState>? formKey
   }){
     return ProfileUpdateState(
@@ -30,11 +35,12 @@ class ProfileUpdateState extends Equatable{
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      image: image,
       formKey: formKey
     );
   }
 
   @override
-  List<Object?> get props => [name,lastName,email,phone];
+  List<Object?> get props => [name,lastName,email,phone,image];
 
 }

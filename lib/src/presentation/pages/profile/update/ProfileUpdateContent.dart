@@ -3,6 +3,7 @@ import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpd
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateEvent.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateState.dart';
 import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
+import 'package:e_commerce/src/presentation/utils/SelectOptionImageDialog.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultIconBack.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultTextField.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class ProfileUpdateContent extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _imageProfile(),
+                _imageProfile(context),
                 // Spacer(),
                 _cardProfileInfo(context),
               ],
@@ -158,19 +159,36 @@ class ProfileUpdateContent extends StatelessWidget {
     );
   }
 
-  Widget _imageProfile() {
-    return Container(
-      margin: EdgeInsets.only(top: 100),
-      width: 150,
-      child: AspectRatio(
-        aspectRatio: 1 / 1,
-        child: ClipOval(
-          child: FadeInImage.assetNetwork(
-            placeholder: 'assets/img/user.png',
-            image:
-                'https://imgs.search.brave.com/Ak3-wGTlGWp6clTi_iWX4ma6KPUXbryxlNQmN1Itgk4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFHMW1P/S19kemMvMi8wLzE2/MDB3L2NhbnZhLWJs/dWUtbW9kZXJuLXdv/bWFuLXBvcnRyYWl0/LWluc3RhZ3JhbS1w/cm9maWxlLXBpY3R1/cmUtRU5zN1ZTS0pi/Z3cuanBn',
-            fit: BoxFit.cover,
-            fadeInDuration: Duration(seconds: 1),
+  Widget _imageProfile(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // bloc?.add(ProfileUpdatePickImage());
+        // bloc?.add(ProfileUpdateTakePhoto());
+        SelectOptionImageDialog(
+          context,
+          () {
+            bloc?.add(ProfileUpdatePickImage());
+          },
+          () {
+            bloc?.add(ProfileUpdateTakePhoto());
+          },
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 100),
+        width: 150,
+        child: AspectRatio(
+          aspectRatio: 1 / 1,
+          child: ClipOval(
+            child: state.image != null
+                ? Image.file(state.image!, fit: BoxFit.cover)
+                : FadeInImage.assetNetwork(
+                    placeholder: 'assets/img/user.png',
+                    image:
+                        'https://imgs.search.brave.com/Ak3-wGTlGWp6clTi_iWX4ma6KPUXbryxlNQmN1Itgk4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFHMW1P/S19kemMvMi8wLzE2/MDB3L2NhbnZhLWJs/dWUtbW9kZXJuLXdv/bWFuLXBvcnRyYWl0/LWluc3RhZ3JhbS1w/cm9maWxlLXBpY3R1/cmUtRU5zN1ZTS0pi/Z3cuanBn',
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(seconds: 1),
+                  ),
           ),
         ),
       ),

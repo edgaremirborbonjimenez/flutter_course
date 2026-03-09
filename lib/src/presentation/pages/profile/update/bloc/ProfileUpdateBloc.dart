@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateEvent.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateState.dart';
 import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
   final formKey = GlobalKey<FormState>();
@@ -13,6 +16,8 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
     on<ProfileUpdateLastNameChange>(_onLastNameChange);
     on<ProfileUpdateEmailChange>(_onEmailChange);
     on<ProfileUpdatePhoneChange>(_onPhoneChange);
+    on<ProfileUpdatePickImage>(_onPickImage);
+    on<ProfileUpdateTakePhoto>(_onTakePhoto);
   }
 
   Future<void> _onInitEvent(
@@ -20,6 +25,28 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
     Emitter<ProfileUpdateState> emit,
   ) async {
     emit(state.copyWith(formKey: formKey));
+  }
+
+  Future<void> _onPickImage(
+    ProfileUpdatePickImage event,
+    Emitter<ProfileUpdateState> emit,
+  ) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      emit(state.copyWith(image: File(image.path)));
+    }
+  }
+
+  Future<void> _onTakePhoto(
+    ProfileUpdateTakePhoto event,
+    Emitter<ProfileUpdateState> emit,
+  ) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      emit(state.copyWith(image: File(image.path)));
+    }
   }
 
   Future<void> _onNameChange(
