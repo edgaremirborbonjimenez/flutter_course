@@ -7,6 +7,7 @@ import 'package:e_commerce/src/presentation/utils/SelectOptionImageDialog.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultIconBack.dart';
 import 'package:e_commerce/src/presentation/widgets/DefaultTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileUpdateContent extends StatelessWidget {
   ProfileUpdateBloc? bloc;
@@ -16,25 +17,28 @@ class ProfileUpdateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        _imageBackground(context),
-        SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _imageProfile(context),
-                // Spacer(),
-                _cardProfileInfo(context),
-              ],
+    return Form(
+      key: state.formKey,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          _imageBackground(context),
+          SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _imageProfile(context),
+                  // Spacer(),
+                  _cardProfileInfo(context),
+                ],
+              ),
             ),
           ),
-        ),
-        DefaultIconBack(left: 15, top: 50),
-      ],
+          DefaultIconBack(left: 15, top: 50),
+        ],
+      ),
     );
   }
 
@@ -71,7 +75,9 @@ class ProfileUpdateContent extends StatelessWidget {
       margin: EdgeInsets.only(right: 10, top: 20),
       child: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () {},
+        onPressed: () {
+          bloc?.add(ProfileUpdateFromSubmit());
+        },
         child: Icon(Icons.check, color: Colors.white),
       ),
     );

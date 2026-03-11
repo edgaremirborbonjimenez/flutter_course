@@ -1,5 +1,6 @@
 import 'package:e_commerce/Injection.dart';
 import 'package:e_commerce/src/domain/useCase/auth/AuthUseCases.dart';
+import 'package:e_commerce/src/domain/useCase/users/UsersUseCases.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
@@ -33,6 +34,6 @@ List<BlocProvider> blocProviders = [
         ProfileInfoBloc(locator<AuthUseCases>())..add(ProfileInfoGetUser()),
   ),
   BlocProvider<ProfileUpdateBloc>(
-    create: (context) => ProfileUpdateBloc()..add(ProfileUpdateInitEvent()),
+    create: (context) => ProfileUpdateBloc(locator<UsersUseCases>()),
   ),
 ];

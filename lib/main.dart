@@ -1,7 +1,6 @@
 import 'package:e_commerce/Injection.dart';
 import 'package:e_commerce/src/BlocProviders.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/AdminHomePage.dart';
-import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/RegisterPage.dart';
 import 'package:e_commerce/src/presentation/pages/client/home/ClientHomePage.dart';

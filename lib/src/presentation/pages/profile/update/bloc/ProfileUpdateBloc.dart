@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:e_commerce/src/domain/useCase/users/UsersUseCases.dart';
+import 'package:e_commerce/src/domain/utils/Resource.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateEvent.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateState.dart';
 import 'package:e_commerce/src/presentation/utils/BlocFormItem.dart';
@@ -8,9 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
+  UsersUseCases userUseCases;
   final formKey = GlobalKey<FormState>();
 
-  ProfileUpdateBloc() : super(ProfileUpdateState()) {
+  ProfileUpdateBloc(this.userUseCases) : super(ProfileUpdateState()) {
     on<ProfileUpdateInitEvent>(_onInitEvent);
     on<ProfileUpdateNameChange>(_onNameChange);
     on<ProfileUpdateLastNameChange>(_onLastNameChange);
@@ -18,13 +21,36 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
     on<ProfileUpdatePhoneChange>(_onPhoneChange);
     on<ProfileUpdatePickImage>(_onPickImage);
     on<ProfileUpdateTakePhoto>(_onTakePhoto);
+    on<ProfileUpdateFromSubmit>(_onFormSubmit);
   }
 
   Future<void> _onInitEvent(
     ProfileUpdateInitEvent event,
     Emitter<ProfileUpdateState> emit,
   ) async {
-    emit(state.copyWith(formKey: formKey));
+    emit(
+      state.copyWith(
+        id: event.user?.id,
+        name: BlocFormItem(value: event.user?.name ?? ''),
+        lastName: BlocFormItem(value: event.user?.lastName ?? ''),
+        email: BlocFormItem(value: event.user?.email ?? ''),
+        phone: BlocFormItem(value: event.user?.phone ?? ''),
+        formKey: formKey,
+      ),
+    );
+  }
+
+  Future<void> _onFormSubmit(
+    ProfileUpdateFromSubmit event,
+    Emitter<ProfileUpdateState> emit,
+  ) async {
+    emit(state.copyWith(response: Loading(), formKey: formKey));
+    Resource response = await userUseCases.updateUser.run(
+      state.id,
+      state.toUser(),
+      state.image,
+    );
+    emit(state.copyWith(response: response, formKey: formKey));
   }
 
   Future<void> _onPickImage(
