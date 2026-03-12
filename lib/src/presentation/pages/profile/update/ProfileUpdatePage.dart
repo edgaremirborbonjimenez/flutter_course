@@ -1,5 +1,7 @@
 import 'package:e_commerce/src/domain/models/User.dart';
 import 'package:e_commerce/src/domain/utils/Resource.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/bloc/ProfileInfoBloc.dart';
+import 'package:e_commerce/src/presentation/pages/profile/info/bloc/ProfileInfoEvent.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/ProfileUpdateContent.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateBloc.dart';
 import 'package:e_commerce/src/presentation/pages/profile/update/bloc/ProfileUpdateEvent.dart';
@@ -47,6 +49,11 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
               toastLength: Toast.LENGTH_LONG,
             );
           } else if (responseState is Success) {
+            User user = responseState.data as User;
+            _bloc?.add(ProfileUpdateUpdateUserSession(user: user));
+            Future.delayed(Duration(seconds: 1), () {
+              context.read<ProfileInfoBloc>().add(ProfileInfoGetUser());
+            });
             Fluttertoast.showToast(
               msg: "Update Succesfull",
               toastLength: Toast.LENGTH_LONG,

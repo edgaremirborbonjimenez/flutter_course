@@ -18,6 +18,16 @@ class ProfileUpdateInitEvent extends ProfileUpdateEvent {
   List<Object?> get props => [user];
 }
 
+class ProfileUpdateUpdateUserSession extends ProfileUpdateEvent {
+  final User user;
+
+  const ProfileUpdateUpdateUserSession({required this.user});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [user];
+}
+
 class ProfileUpdateNameChange extends ProfileUpdateEvent {
   final BlocFormItem name;
 

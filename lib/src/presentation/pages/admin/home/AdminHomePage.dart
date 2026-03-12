@@ -1,3 +1,4 @@
+import 'package:e_commerce/main.dart';
 import 'package:e_commerce/src/presentation/pages/admin/category/list/AdminCategoryListPage.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeBloc.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeEvent.dart';
@@ -70,9 +71,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   title: Text("Logout"),
                   onTap: () {
                     _bloc?.add(AdminLogout());
-                    Navigator.pushNamedAndRemoveUntil(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      'login',
+                      MaterialPageRoute(builder: (context) => MyApp()),
                       (route) => false,
                     );
                   },
