@@ -1,6 +1,9 @@
 import 'package:e_commerce/Injection.dart';
 import 'package:e_commerce/src/domain/useCase/auth/AuthUseCases.dart';
+import 'package:e_commerce/src/domain/useCase/category/CategoryUseCases.dart';
 import 'package:e_commerce/src/domain/useCase/users/UsersUseCases.dart';
+import 'package:e_commerce/src/presentation/pages/admin/category/create/bloc/AdminCategoryCreateBloc.dart';
+import 'package:e_commerce/src/presentation/pages/admin/category/create/bloc/AdminCategoryCreateEvents.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
@@ -36,5 +39,9 @@ List<BlocProvider> blocProviders = [
   BlocProvider<ProfileUpdateBloc>(
     create: (context) =>
         ProfileUpdateBloc(locator<UsersUseCases>(), locator<AuthUseCases>()),
+  ),
+  BlocProvider<AdminCategoryCreateBloc>(
+    create: (context) =>
+        AdminCategoryCreateBloc(locator<CategoryUseCases>())..add(AdminCategoryCreateInitEvent()),
   ),
 ];

@@ -1,5 +1,6 @@
 import 'package:e_commerce/Injection.dart';
 import 'package:e_commerce/src/BlocProviders.dart';
+import 'package:e_commerce/src/presentation/pages/admin/category/create/AdminCategoryCreatePage.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/AdminHomePage.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:e_commerce/src/presentation/pages/auth/register/RegisterPage.dart';
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
           'admin/home': (BuildContext context) => AdminHomePage(),
           'profile/info': (BuildContext context) => ProfileInfoPage(),
           'profile/update': (BuildContext context) => ProfileUpdatePage(),
+          'admin/category/create': (BuildContext context) =>
+              AdminCategoryCreatePage(),
         },
       ),
     );
