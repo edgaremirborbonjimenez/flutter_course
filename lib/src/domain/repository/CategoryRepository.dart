@@ -5,4 +5,5 @@ import 'package:e_commerce/src/domain/utils/Resource.dart';
 
 abstract class CategoryRepository {
   Future<Resource<Category>> create(Category category, File? file);
+  Future<Resource<List<Category>>> getCategories();
 }

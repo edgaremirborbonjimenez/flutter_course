@@ -49,4 +49,31 @@ class CategoryService {
       return Error(e.toString());
     }
   }
+
+  Future<Resource<List<Category>>> getCategories() async {
+    try {
+      print('GET CATEGORIES');
+      Uri url = Uri.http(ApiConfig.API_ECOMMERCE, '/categories');
+      String token = "";
+      final userSession = await sharedPref.read('user');
+      if (userSession != null) {
+        AuthResponse authResponse = AuthResponse.fromJson(userSession);
+        token = authResponse.token;
+      }
+      Map<String, String> headers = {
+        "Content-Type": "application/json",
+        "Authorization": token,
+      };
+      final response = await http.get(url, headers: headers);
+      final data = json.decode(response.body);
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        return Error(listToString(data['message']));
+      }
+      List<Category> categories = Category.fromJsonList(data);
+      return Success(categories);
+    } catch (e) {
+      print('Error: ${e}');
+      return Error(e.toString());
+    }
+  }
 }

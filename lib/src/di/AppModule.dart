@@ -16,6 +16,7 @@ import 'package:e_commerce/src/domain/useCase/auth/RegisterUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/auth/SaveUserSessionUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/category/CategoryUseCases.dart';
 import 'package:e_commerce/src/domain/useCase/category/CreateCategoryUseCase.dart';
+import 'package:e_commerce/src/domain/useCase/category/GetCategoriesUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/users/UpdateUserUseCase.dart';
 import 'package:e_commerce/src/domain/useCase/users/UsersUseCases.dart';
 import 'package:injectable/injectable.dart';
@@ -59,6 +60,8 @@ abstract class AppModule {
       UsersUseCases(updateUser: UpdateUserUserCase(userRepository));
 
   @injectable
-  CategoryUseCases get categoryUseCases =>
-      CategoryUseCases(create: CreateCategoryUseCase(categoryRepository));
+  CategoryUseCases get categoryUseCases => CategoryUseCases(
+    create: CreateCategoryUseCase(categoryRepository),
+    getCategories: GetCategoriesUseCase(categoryRepository),
+  );
 }

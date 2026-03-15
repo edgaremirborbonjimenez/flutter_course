@@ -4,6 +4,7 @@ import 'package:e_commerce/src/domain/useCase/category/CategoryUseCases.dart';
 import 'package:e_commerce/src/domain/useCase/users/UsersUseCases.dart';
 import 'package:e_commerce/src/presentation/pages/admin/category/create/bloc/AdminCategoryCreateBloc.dart';
 import 'package:e_commerce/src/presentation/pages/admin/category/create/bloc/AdminCategoryCreateEvents.dart';
+import 'package:e_commerce/src/presentation/pages/admin/category/list/bloc/AdminCategoryListBloc.dart';
 import 'package:e_commerce/src/presentation/pages/admin/home/bloc/AdminHomeBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginBloc.dart';
 import 'package:e_commerce/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
@@ -42,6 +43,10 @@ List<BlocProvider> blocProviders = [
   ),
   BlocProvider<AdminCategoryCreateBloc>(
     create: (context) =>
-        AdminCategoryCreateBloc(locator<CategoryUseCases>())..add(AdminCategoryCreateInitEvent()),
+        AdminCategoryCreateBloc(locator<CategoryUseCases>())
+          ..add(AdminCategoryCreateInitEvent()),
+  ),
+  BlocProvider<AdminCategoryListBloc>(
+    create: (context) => AdminCategoryListBloc(locator<CategoryUseCases>()),
   ),
 ];
